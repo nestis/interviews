@@ -1,0 +1,16 @@
+.project
+.classpath
+.DS_Store
+
+mvnw
+mvnw.cmd
+
+/.mvn
+/**/.mvn
+/.settings
+/**/.settings
+/target
+/**/target
+
+/pkg
+/**/pkg

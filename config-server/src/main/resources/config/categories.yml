@@ -1,0 +1,12 @@
+server:
+  port: 8080
+endpoints:
+  categories: /categories
+spring:
+  resources:
+    add-mappings: false
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: interviews

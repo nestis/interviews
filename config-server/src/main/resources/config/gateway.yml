@@ -1,0 +1,4 @@
+endpoints:
+  categories: http://172.17.0.3:8080/categories
+  questions: http://172.17.0.4:8080/questions
+  tests: http://172.17.0.5:8080/tests
