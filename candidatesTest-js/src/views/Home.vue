@@ -29,7 +29,26 @@ export default {
       this.$router.push('404');
     } else {
       const url = `http://localhost:8080/test/${testToken}`;
-      this.$http.get(url)
+      // Mock server response...
+      setTimeout(() => {
+        const response = {
+          candidate: 'Carlos',
+          evaluator: 'Alejandro Capel',
+          minutes: 30,
+          questions: []
+        }
+        
+        const reduxData = {...response};
+        this.$store.dispatch('setInitData', reduxData)
+
+        this.test.candidate = response.candidate;
+        this.test.evaluator = response.evaluator
+        this.test.minutes = response.minutes;
+
+
+        Object.freeze(this.test);
+        this.$eventHub.$emit('hideLoader');
+      }, 1000);
     }
   }
 };

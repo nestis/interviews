@@ -5,12 +5,14 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import http from './services/HttpService'
+import eventHub from './services/EventService';
 import './registerServiceWorker'
 
-Vue.config.productionTip = false
-console.log(process.env)
+Vue.config.productionTip = false;
+
 new Vue({
   router,
+  eventHub,
   http,
   store,
   render: h => h(App)

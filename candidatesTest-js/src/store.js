@@ -5,12 +5,24 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-
+    token: '',
+    evaluator: '',
+    candidate: '',
+    minutes: 0,
+    questions: {}
   },
   mutations: {
-
+    setInitData(state, initData) {
+      state.token = initData.token;
+      state.evaluator = initData.evaluator;
+      state.candidate = initData.candidate;
+      state.minutes = initData.minutes;
+      state.questions = initData.questions;
+    }
   },
   actions: {
-
+    setInitData({commit}, payload) {
+      commit('setInitData', payload);
+    }
   }
 })

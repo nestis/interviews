@@ -25,7 +25,7 @@
           <div class="col s12 m4">
             <div class="icon-block">
               <h2 class="center brown-text"><i class="material-icons">supervisor_account</i></h2>
-              <h5 class="center">Evaluador Tecnico</h5>
+              <h5 class="center">Evaluador Técnico</h5>
               <p class="light">{{evaluator}}</p>
             </div>
           </div>
