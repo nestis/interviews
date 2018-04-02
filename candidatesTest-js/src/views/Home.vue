@@ -1,18 +1,36 @@
 <template>
   <div class="home">
-    <img src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Home v-bind:candidate="test.candidate" v-bind:evaluator="test.evaluator" v-bind:time="test.minutes"></Home>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import Home from "@/components/Home.vue";
 
 export default {
-  name: 'home',
+  name: "home",
   components: {
-    HelloWorld
+    Home
+  },
+
+  data: function() {
+    return {
+      test : {
+        candidate: '',
+        evaluator: '',
+        minutes: 0
+      }
+    }
+  },
+
+  mounted() {
+    const testToken = this.$route.query.token;
+    if (testToken === undefined) {
+      this.$router.push('404');
+    } else {
+      const url = `http://localhost:8080/test/${testToken}`;
+      this.$http.get(url)
+    }
   }
-}
+};
 </script>
