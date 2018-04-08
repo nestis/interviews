@@ -14,8 +14,8 @@ export default new Vuex.Store({
   mutations: {
     setInitData(state, initData) {
       state.token = initData.token;
-      state.evaluator = initData.evaluator;
-      state.candidate = initData.candidate;
+      state.evaluator = initData.leader;
+      state.candidate = initData.name;
       state.minutes = initData.minutes;
       state.questions = initData.questions;
     }
