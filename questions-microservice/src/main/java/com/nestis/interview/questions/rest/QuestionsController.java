@@ -32,6 +32,7 @@ public class QuestionsController {
 	
 	public QuestionsController(@Autowired QuestionService questionService, @Autowired QuestionsMapper questionMapper) {
 		this.questionService = questionService;
+		this.questionsMapper = questionMapper;
 	}
 	
 	/**
