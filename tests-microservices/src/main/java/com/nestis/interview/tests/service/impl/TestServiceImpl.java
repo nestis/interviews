@@ -15,11 +15,11 @@ public class TestServiceImpl implements TestService {
 	public TestServiceImpl(@Autowired TestRepository testRepository) {
 		this.testRepository = testRepository;
 	}
-
+	
 	@Override
-	public Test getTest(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Test getTestByToken(String token) {
+		Test test = this.testRepository.findByToken(token);
+		return test;
 	}
 
 	@Override

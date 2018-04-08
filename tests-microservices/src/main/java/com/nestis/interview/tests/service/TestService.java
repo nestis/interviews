@@ -10,11 +10,11 @@ import com.nestis.interview.tests.entity.Test;
 public interface TestService {
 	
 	/**
-	 * Retrieves a test from the given id
-	 * @param id Test id
+	 * Retrieves a test from the given token
+	 * @param token Test token
 	 * @return Test entity.
 	 */
-	Test getTest(Integer id);
+	Test getTestByToken(String token);
 	
 	/**
 	 * Saves a new test.

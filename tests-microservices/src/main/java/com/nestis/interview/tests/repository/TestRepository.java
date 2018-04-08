@@ -6,4 +6,5 @@ import com.nestis.interview.tests.entity.Test;
 
 public interface TestRepository extends MongoRepository<Test, String>{
 
+	Test findByToken(String token);
 }

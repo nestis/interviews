@@ -16,6 +16,8 @@ public class Test {
 	
 	private Integer testId;
 	
+	private String token;
+	
 	List<Integer> questions;
 	
 	private String name;

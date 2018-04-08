@@ -3,6 +3,8 @@ package com.nestis.interview.tests.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,8 +38,15 @@ public class TestController {
 	 * @return Mono containing the test object.
 	 */
 	@GetMapping(value = "/{token}")
-	public Mono<Test> getTest(@PathVariable String token) {
-		return null;
+	public Mono<ResponseEntity<Test>> getTest(@PathVariable String token) {
+		Test test = this.testService.getTestByToken(token);
+		ResponseEntity<Test> response;
+		if (test == null) {
+			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} else {
+			response = new ResponseEntity<Test>(test, HttpStatus.OK);
+		}
+		return Mono.just(response);
 	}
 	
 	/**
