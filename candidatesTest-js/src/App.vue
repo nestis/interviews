@@ -94,6 +94,7 @@ export default {
   &.hidden {
     opacity: 0;
     transition: opacity 500ms ease-in-out;
+    z-index: -1;
   }
 }
 
