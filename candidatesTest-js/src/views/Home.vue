@@ -6,6 +6,7 @@
 
 <script>
 import Home from "@/components/Home.vue";
+import { HomeService } from '@/components/HomeService';
 
 export default {
   name: "home",
@@ -28,27 +29,25 @@ export default {
     if (testToken === undefined) {
       this.$router.push('404');
     } else {
-      const url = `http://localhost:8080/test/${testToken}`;
-      // Mock server response...
-      setTimeout(() => {
-        const response = {
-          candidate: 'Carlos',
-          evaluator: 'Alejandro Capel',
-          minutes: 30,
-          questions: []
-        }
-        
-        const reduxData = {...response};
-        this.$store.dispatch('setInitData', reduxData)
+      const homeService = new HomeService(this.$http);
+      homeService.getTest(testToken).finally(() => {
+        debugger;
+        this.$eventHub.$emit('hideLoader')}
+      ).subscribe(data => {
+        data.minutes = 30;
+        this.$store.dispatch('setInitData', {...data})
 
-        this.test.candidate = response.candidate;
-        this.test.evaluator = response.evaluator
-        this.test.minutes = response.minutes;
-
+        this.test.candidate = data.name;
+        this.test.evaluator = data.leader
+        this.test.minutes = data.minutes;2
 
         Object.freeze(this.test);
-        this.$eventHub.$emit('hideLoader');
-      }, 1000);
+        
+      }, error => {
+        switch(error.status) {
+          case 204: this.$router.push('404'); break;
+        }
+      });
     }
   }
 };
