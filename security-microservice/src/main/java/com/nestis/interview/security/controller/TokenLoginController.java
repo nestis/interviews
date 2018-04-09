@@ -19,15 +19,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nestis.interview.security.service.TestTokenService;
-import com.nestis.interview.security.service.TokenInfo;
+import com.nestis.interview.security.service.TokenService;
+import com.nestis.interview.security.service.model.TokenInfo;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+/**
+ * TokenLoginController.
+ * @author nestis
+ *
+ */
 @RestController
 @RequestMapping("/auth/testToken")
-public class TestTokenLoginController {
+public class TokenLoginController {
 
 	@Value("${interview.security.secret:testTokenSecret}")
 	private String secret;
@@ -40,12 +45,20 @@ public class TestTokenLoginController {
 
 	private final String TOKEN_PREFIX = "Bearer";
 	
-	private TestTokenService testTokenService;
+	private TokenService testTokenService;
 	
-	public TestTokenLoginController(@Autowired TestTokenService testTokenService) {
+	public TokenLoginController(@Autowired TokenService testTokenService) {
 		this.testTokenService = testTokenService;
 	}
 
+	/**
+	 * Checks if the request param token matches with a current test token stored in database.
+	 * If it does, it will generate a jwt that will be returned in a response header.
+	 * @param response HttpServletResponse.
+	 * @param token Token to check.
+	 * @return ResponseEntity<Void>
+	 * @throws Exception If something goes south...
+	 */
 	@GetMapping
 	public ResponseEntity<Void> getTestToken(HttpServletResponse response, @RequestParam String token) throws Exception {
 		TokenInfo tokenInfo = testTokenService.getTokenInfo(token);

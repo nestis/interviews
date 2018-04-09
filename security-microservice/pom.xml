@@ -6,7 +6,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<name>security-microservices</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Simple security service that creates a jwt token and exposes a service to validate it.</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -35,6 +35,15 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 		
 		<dependency>

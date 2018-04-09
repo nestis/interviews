@@ -8,8 +8,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.nestis.interview.security.filter.TestTokenAuthenticationFilter;
+import com.nestis.interview.security.filter.TokenAuthenticationFilter;
 
+/**
+ * Configures a TokenAuthenticationFilter instance on /auth/validToken url.
+ * Requests to that endpoint will be intercepted by the filter, which will check the authorization header for a valid jwt.
+ * Invalid or empty tokens will return a 403. Valid tokens will make the request go to ValidTokenController, that will simply return a 200.
+ * @author nestis
+ *
+ */
 @Configuration
 @EnableWebSecurity
 @Order(3)
@@ -29,6 +36,6 @@ public class ValidTokenSecurityConfiguration extends WebSecurityConfigurerAdapte
 		http.antMatcher("/auth/validToken").authorizeRequests()
 			.anyRequest().authenticated()
 			.and()
-	        .addFilterBefore(new TestTokenAuthenticationFilter(secret, expirationTime, tokenHeader), UsernamePasswordAuthenticationFilter.class);
+	        .addFilterBefore(new TokenAuthenticationFilter(secret, expirationTime, tokenHeader), UsernamePasswordAuthenticationFilter.class);
 	}
 }

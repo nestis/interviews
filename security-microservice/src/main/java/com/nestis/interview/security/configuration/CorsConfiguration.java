@@ -5,6 +5,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * Cors configuration.
+ * @author nestis
+ *
+ */
 @Configuration
 @Order(1)
 public class CorsConfiguration implements WebMvcConfigurer {
