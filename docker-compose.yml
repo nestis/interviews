@@ -1,0 +1,19 @@
+version: "3"
+services:
+  config-server:
+    build:
+      context: config-server
+      args:
+        JAR_FILE: target/config-server-0.0.1-SNAPSHOT.jar
+    expose:
+      - "9000"
+  gateway:
+    links:
+      - "config-server:config"
+    environment:
+      profile: dev
+      configUrl: "http://config:9000"
+    build:
+      context: gateway-go/src/nestis/API-gateway
+    ports:
+      - "8080:8080"

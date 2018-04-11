@@ -1,5 +1,6 @@
 FROM golang:1.10-alpine
-COPY . /go/src/github.com/nestis/interview-middleware-go
-WORKDIR /go/src/github.com/nestis/interview-middleware-go
-RUN go build
-CMD ./interview-middleware-go
+COPY . /go/src/nestis/api-gateway
+WORKDIR /go/src/nestis/api-gateway
+RUN export GOPATH="/go/src"
+RUN go build -o gateway-app
+CMD ./gateway-app
