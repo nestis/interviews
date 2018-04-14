@@ -51,7 +51,7 @@ public class TestController {
 		Token tokenInfo = this.tokenService.getToken(token);
 		ResponseEntity<Test> response;
 		if (tokenInfo == null) {
-			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
 			Test test = this.testService.getTestById(tokenInfo.getTestId());
 			response = new ResponseEntity<Test>(test, HttpStatus.OK);
@@ -62,11 +62,12 @@ public class TestController {
 	/**
 	 * Creates a new test.
 	 * @param test Test object to save.
-	 * @return String containing the token for the new test.
+	 * @return Empty mono.
 	 */
 	@PostMapping
-	public Mono<String> newTest(@RequestBody Test test) {
-		return null;
+	public Mono<Void> newTest(@RequestBody Test test) {
+		testService.createTest(test);
+		return Mono.empty();
 	}
 	
 	/**

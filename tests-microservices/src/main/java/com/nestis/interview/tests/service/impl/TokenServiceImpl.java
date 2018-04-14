@@ -1,5 +1,7 @@
 package com.nestis.interview.tests.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ public class TokenServiceImpl implements TokenService {
 	
 	@Override
 	public Token getToken(String token) {
-		return tokenRepository.findByToken(token);
+		Optional<Token> tokenEntity = this.tokenRepository.findByToken(token);
+		return tokenEntity.orElseThrow(() -> new RuntimeException("Token not found"));
 	}
 }
