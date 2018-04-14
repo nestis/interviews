@@ -26,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.nestis.interview.tests.TestsApplication;
 import com.nestis.interview.tests.entity.Token;
+import com.nestis.interview.tests.exception.TestsException;
 import com.nestis.interview.tests.service.TestService;
 import com.nestis.interview.tests.service.TokenService;
 import com.nestis.interview.tests.service.model.MarkTestDto;
@@ -89,7 +90,6 @@ public class TestControllerTest {
 		
 		given(testService.markTest(eq(mark))).willReturn(true);
 		
-
 		given(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(Void.class)))
 			.willReturn(new ResponseEntity<Void>(HttpStatus.OK));
 		
@@ -102,6 +102,19 @@ public class TestControllerTest {
 	@Test
 	public void shouldMarkATest() throws Exception {
 		assert(false);
+	}
+	
+	@Test
+	public void shouldReturnATestsException() throws Exception {
+		given(tokenService.getToken(anyString())).willThrow(RuntimeException.class);
+
+		given(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(Void.class)))
+			.willReturn(new ResponseEntity<Void>(HttpStatus.OK));
+		
+		webTestClient.get().uri("/tests/{token}", "1")
+			.exchange()
+			.expectStatus().is5xxServerError()
+			.expectBody(TestsException.class);
 	}
 	
 	@Test
