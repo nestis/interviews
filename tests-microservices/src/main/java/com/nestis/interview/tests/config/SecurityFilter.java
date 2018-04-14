@@ -18,6 +18,11 @@ import org.springframework.web.server.WebFilterChain;
 
 import reactor.core.publisher.Mono;
 
+/**
+ * SecurityFilter. Will check if any incoming request has a valid secutiry token.
+ * @author nestis
+ *
+ */
 @Component
 public class SecurityFilter implements WebFilter {
 	
@@ -31,19 +36,29 @@ public class SecurityFilter implements WebFilter {
 	@Value("${security.tokenHeader}")
 	private String tokenHeader;
 	
+	/**
+	 * Class constructor.
+	 * @param restTemplate
+	 */
 	public SecurityFilter(@Autowired RestTemplate restTemplate) {
 		this.restTemplate = restTemplate;
 	}
 	
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+		// Check if the request has a token header.
 		if (exchange.getRequest().getHeaders().containsKey(tokenHeader)) {
+			
+			// Create a HttpEntity containing the token header value.
 			HttpEntity<String> entity = new HttpEntity<>("parameters", exchange.getRequest().getHeaders());
 			try {
+				// Dispatch a request to security to validate the actual token.
 				ResponseEntity<Void> response = restTemplate.exchange(securityEndpoint, HttpMethod.GET, entity, Void.class);
 				if (response.getStatusCode().is2xxSuccessful()) {
+					// If 200, ok, go through
 					return chain.filter(exchange);
 				} else {
+					// Any other case, return 403
 					exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
 					return Mono.empty();
 				}
@@ -57,6 +72,7 @@ public class SecurityFilter implements WebFilter {
 				return Mono.empty();
 			}
 		}
+		// If there is no header, return 403
 		exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
 		return Mono.empty();
 	}

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.nestis.interview.tests.entity.Test;
 import com.nestis.interview.tests.repository.TestRepository;
 import com.nestis.interview.tests.service.TestService;
+import com.nestis.interview.tests.service.model.MarkTestDto;
 
 @Service
 public class TestServiceImpl implements TestService {
@@ -17,8 +18,8 @@ public class TestServiceImpl implements TestService {
 	}
 	
 	@Override
-	public Test getTestByToken(String token) {
-		Test test = this.testRepository.findByToken(token);
+	public Test getTestById(Integer testId) {
+		Test test = this.testRepository.findByTestId(testId);
 		return test;
 	}
 
@@ -29,8 +30,9 @@ public class TestServiceImpl implements TestService {
 	}
 
 	@Override
-	public void markTest(Test test) {
+	public boolean markTest(MarkTestDto test) {
 		// TODO Auto-generated method stub
+		return false;
 		
 	}
 

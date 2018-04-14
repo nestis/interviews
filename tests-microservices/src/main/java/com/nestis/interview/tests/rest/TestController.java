@@ -1,7 +1,5 @@
 package com.nestis.interview.tests.rest;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nestis.interview.tests.entity.Test;
+import com.nestis.interview.tests.entity.Token;
 import com.nestis.interview.tests.service.TestService;
+import com.nestis.interview.tests.service.TokenService;
+import com.nestis.interview.tests.service.model.MarkTestDto;
 
 import reactor.core.publisher.Mono;
 
@@ -23,34 +24,43 @@ import reactor.core.publisher.Mono;
  *
  */
 @RestController
-@RequestMapping(value = "${endpoints.tests:/test}")
+@RequestMapping(value = "${endpoints.tests:tests}")
 public class TestController {
 	
 	private TestService testService;
 	
-	public TestController(@Autowired TestService testService) {
+	private TokenService tokenService;
+	
+	/**
+	 * Class constructor.
+	 * @param testService TestService bean.
+	 * @param tokenService TokenService bean.
+	 */
+	public TestController(@Autowired TestService testService, @Autowired TokenService tokenService) {
 		this.testService = testService;
+		this.tokenService = tokenService;
 	}
 	
 	/**
-	 * Get the test for the given token.
+	 * Gets the test for the given token.
 	 * @param token Test token.
 	 * @return Mono containing the test object.
 	 */
 	@GetMapping(value = "/{token}")
 	public Mono<ResponseEntity<Test>> getTest(@PathVariable String token) {
-		Test test = this.testService.getTestByToken(token);
+		Token tokenInfo = this.tokenService.getToken(token);
 		ResponseEntity<Test> response;
-		if (test == null) {
+		if (tokenInfo == null) {
 			response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} else {
+			Test test = this.testService.getTestById(tokenInfo.getTestId());
 			response = new ResponseEntity<Test>(test, HttpStatus.OK);
 		}
 		return Mono.just(response);
 	}
 	
 	/**
-	 * Create a new test.
+	 * Creates a new test.
 	 * @param test Test object to save.
 	 * @return String containing the token for the new test.
 	 */
@@ -66,7 +76,7 @@ public class TestController {
 	 * @return String
 	 */
 	@PostMapping(value = "/{token}/mark")
-	public Mono<String> markTest(@PathVariable String token, @RequestBody List<Integer> answers) {
+	public Mono<String> markTest(@PathVariable String token, @RequestBody MarkTestDto answers) {
 		return null;
 	}
 }

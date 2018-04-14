@@ -1,32 +1,23 @@
 package com.nestis.interview.tests.entity;
 
-import java.util.List;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
 /**
- * Test Entity.
+ * Token Entity.
  * @author nestis
  *
  */
+@Document(collection = "token")
 @Data
-@Document(collection = "tests")
-public class Test {
+public class Token {
 
 	@Id
-	@JsonIgnore
 	private String id;
+
+	private String token;
 	
 	private Integer testId;
-	
-	List<Integer> questions;
-	
-	private String name;
-	
-	private String leader;
 }

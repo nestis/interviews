@@ -1,6 +1,7 @@
 package com.nestis.interview.tests.service;
 
 import com.nestis.interview.tests.entity.Test;
+import com.nestis.interview.tests.service.model.MarkTestDto;
 
 /**
  * TestService interface.
@@ -10,11 +11,11 @@ import com.nestis.interview.tests.entity.Test;
 public interface TestService {
 	
 	/**
-	 * Retrieves a test from the given token
-	 * @param token Test token
+	 * Retrieves a test from the given id
+	 * @param token Test id
 	 * @return Test entity.
 	 */
-	Test getTestByToken(String token);
+	Test getTestById(Integer testId);
 	
 	/**
 	 * Saves a new test.
@@ -27,5 +28,5 @@ public interface TestService {
 	 * Marks a test.
 	 * @param test Test to be marked.
 	 */
-	void markTest(Test test);
+	boolean markTest(MarkTestDto test);
 }
