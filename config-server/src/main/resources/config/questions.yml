@@ -1,8 +1,13 @@
 server:
   port: 8082
+  
 endpoints:
   questions: /questions
-  security: http://localhost:8090/auth/validToken
+  
+security:
+  endpoint: http://localhost:8090/auth/validToken
+  tokenHeader: Authorization
+  
 spring:
   resources:
     add-mappings: false

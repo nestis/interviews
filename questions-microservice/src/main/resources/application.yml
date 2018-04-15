@@ -1,5 +1,3 @@
 spring:
-  profile:
+  profiles:
     active: dev
-  application:
-    name: questions

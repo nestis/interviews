@@ -2,7 +2,11 @@ server:
   port: 8080
 endpoints:
   categories: /categories
-  security: http://localhost:8090/auth/validToken
+  
+security:
+  endpoint: http://localhost:8090/auth/validToken
+  tokenHeader: Authorization
+  
 spring:
   resources:
     add-mappings: false
