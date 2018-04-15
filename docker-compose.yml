@@ -1,19 +1,50 @@
 version: "3"
-services:
+services:    
   config-server:
+    image: config-server:0.0.1
     build:
       context: config-server
-      args:
-        JAR_FILE: target/config-server-0.0.1-SNAPSHOT.jar
     expose:
       - "9000"
+  
   gateway:
+    image: gateway-go:0.0.1
+    build:
+      context: gateway-go/src/nestis/API-gateway
     links:
       - "config-server:config"
+    depends_on:
+      - config-server
     environment:
       profile: dev
       configUrl: "http://config:9000"
-    build:
-      context: gateway-go/src/nestis/API-gateway
     ports:
       - "8080:8080"
+  
+  security-service:
+    image: security-service:0.0.1
+    links:
+      - "config-server:config"
+    depends_on:
+      - config-server
+    environment:
+      SPRING_CONFIG_URI: "http://config:9000"
+      JAVA_OPTS: "-Dspring.profiles.active=docker"
+    build:
+      context: security-microservice
+    expose:
+      - "8080"
+    
+  test-microservices:
+    image: test-microservice:0.0.1
+    links: 
+      - "config-server:config"
+    depends_on:
+      - config-server
+    environment:
+      SPRING_CONFIG_URI: "http://config:9000"
+      JAVA_OPTS: "-Dspring.profiles.active=docker"
+    build:
+      context: tests-microservices
+    expose:
+      - "8080"
