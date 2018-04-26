@@ -29,4 +29,7 @@ public class Test {
 	private String name;
 	
 	private String leader;
+	
+	@JsonIgnore
+	private Boolean finished;
 }

@@ -14,7 +14,7 @@ import com.nestis.interview.tests.entity.Test;
 import com.nestis.interview.tests.entity.Token;
 import com.nestis.interview.tests.service.TestService;
 import com.nestis.interview.tests.service.TokenService;
-import com.nestis.interview.tests.service.model.MarkTestDto;
+import com.nestis.interview.tests.service.model.FinishTestDto;
 
 import reactor.core.publisher.Mono;
 
@@ -24,7 +24,7 @@ import reactor.core.publisher.Mono;
  *
  */
 @RestController
-@RequestMapping(value = "${endpoints.tests:tests}")
+@RequestMapping(value = "${config.endpoints.tests:tests}")
 public class TestController {
 	
 	private TestService testService;
@@ -71,13 +71,13 @@ public class TestController {
 	}
 	
 	/**
-	 * Marks a test.
+	 * Finish a test.
 	 * @param token Test token.
 	 * @param answers List of answers.
 	 * @return String
 	 */
-	@PostMapping(value = "/{token}/mark")
-	public Mono<String> markTest(@PathVariable String token, @RequestBody MarkTestDto answers) {
-		return null;
+	@PostMapping(value = "/{token}")
+	public Mono<Boolean> markTest(@PathVariable String token, @RequestBody FinishTestDto answers) {
+		return Mono.just(testService.finishTest(answers));
 	}
 }

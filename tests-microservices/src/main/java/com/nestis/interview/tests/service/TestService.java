@@ -1,7 +1,7 @@
 package com.nestis.interview.tests.service;
 
 import com.nestis.interview.tests.entity.Test;
-import com.nestis.interview.tests.service.model.MarkTestDto;
+import com.nestis.interview.tests.service.model.FinishTestDto;
 
 /**
  * TestService interface.
@@ -25,8 +25,8 @@ public interface TestService {
 	String createTest(Test test);
 	
 	/**
-	 * Marks a test.
-	 * @param test Test to be marked.
+	 * Finish a test.
+	 * @param test Test to be set as finished.
 	 */
-	boolean markTest(MarkTestDto test);
+	boolean finishTest(FinishTestDto test);
 }

@@ -1,5 +1,6 @@
 package com.nestis.interview.tests.service.model;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import lombok.Data;
@@ -10,7 +11,7 @@ import lombok.Data;
  *
  */
 @Data
-public class MarkTestDto {
+public class FinishTestDto implements Serializable {
 
 	/**
 	 * Test id

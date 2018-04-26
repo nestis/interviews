@@ -1,8 +1,13 @@
 server:
   port: 8081
-  
-endpoints:
-  questions: /tests
+
+config:
+  rabbit:
+    question:
+      exchange: questionsExchange
+      routingKey: testFinished
+  endpoints:
+    questions: /tests
   
 security:
   endpoint: http://localhost:8090/auth/validToken
@@ -11,6 +16,11 @@ security:
 spring:
   resources:
     add-mappings: false
+  rabbitmq:
+    host: localhost
+    port: 5672
+    user: guest
+    password: guest
   data:
     mongodb:
       host: localhost

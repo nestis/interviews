@@ -29,13 +29,13 @@ import com.nestis.interview.tests.entity.Token;
 import com.nestis.interview.tests.exception.TestsException;
 import com.nestis.interview.tests.service.TestService;
 import com.nestis.interview.tests.service.TokenService;
-import com.nestis.interview.tests.service.model.MarkTestDto;
+import com.nestis.interview.tests.service.model.FinishTestDto;
 
 import reactor.core.publisher.Mono;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestsApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = {"endpoints.tests=tests", "security.endpoint=security", "security.tokenHeader=token"})
+@TestPropertySource(properties = {"config.endpoints.tests=tests", "security.endpoint=security", "security.tokenHeader=token"})
 public class TestControllerTest {
 
 	private final String securityToken = "SEC";
@@ -84,17 +84,17 @@ public class TestControllerTest {
 	
 	@Test
 	public void shouldACreateNewTest() throws Exception {
-		MarkTestDto mark = new MarkTestDto();
+		FinishTestDto mark = new FinishTestDto();
 		mark.setTestId(1);
 		mark.setAnswers(Collections.EMPTY_MAP);
 		
-		given(testService.markTest(eq(mark))).willReturn(true);
+		given(testService.finishTest(eq(mark))).willReturn(true);
 		
 		given(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(Void.class)))
 			.willReturn(new ResponseEntity<Void>(HttpStatus.OK));
 		
 		webTestClient.post().uri("/tests/mark")
-			.body(Mono.just(mark), MarkTestDto.class)
+			.body(Mono.just(mark), FinishTestDto.class)
 			.exchange()
 			.expectStatus().is2xxSuccessful();
 	}
