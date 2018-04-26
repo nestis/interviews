@@ -13,10 +13,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice("com.nestis.interview.tests.rest")
 public class TestsControllerAdvice {
 
+	@ExceptionHandler(EntityNotFoundException.class)
+	public ResponseEntity<TestExceptionResponse> handleEntityNotFoundException(EntityNotFoundException ex) {
+		TestExceptionResponse testException = new TestExceptionResponse(ex.getMessage());
+		return new ResponseEntity<TestExceptionResponse>(testException, HttpStatus.NOT_FOUND);
+	}
+	
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<TestsException> handleException(Exception ex) {
-		TestsException testException = new TestsException();
-		testException.setMessage(ex.getMessage());
-		return new ResponseEntity<TestsException>(testException, HttpStatus.INTERNAL_SERVER_ERROR);
+	public ResponseEntity<TestExceptionResponse> handleException(Exception ex) {
+		TestExceptionResponse testException = new TestExceptionResponse(ex.getMessage());
+		return new ResponseEntity<TestExceptionResponse>(testException, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

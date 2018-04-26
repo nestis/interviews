@@ -1,9 +1,13 @@
 package com.nestis.interview.tests.exception;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
-public class TestsException {
+@Getter
+public class TestsException extends RuntimeException {
+	
+	private static final long serialVersionUID = 6666323529327251267L;
 
-	private String message;
+	public TestsException(String message) {
+		super(message);
+	}
 }
