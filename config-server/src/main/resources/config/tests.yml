@@ -21,6 +21,7 @@ spring:
     port: 5672
     user: guest
     password: guest
+    publisher-confirms: true
   data:
     mongodb:
       host: localhost
