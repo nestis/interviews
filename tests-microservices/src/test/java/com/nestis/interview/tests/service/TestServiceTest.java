@@ -18,7 +18,6 @@ import org.junit.runner.RunWith;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.support.CorrelationData;
 import org.springframework.amqp.rabbit.support.PendingConfirm;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -52,6 +51,7 @@ public class TestServiceTest {
 		com.nestis.interview.tests.entity.Test test = new com.nestis.interview.tests.entity.Test();
 		test.setLeader("Test Leader");
 		test.setName("Test candidate");
+		test.setTestId(1);
 		given(testRepository.findByTestId(anyInt())).willReturn(Optional.of(test));
 		
 		com.nestis.interview.tests.entity.Test testResponse = testService.getTestById(1);
@@ -66,6 +66,12 @@ public class TestServiceTest {
 	
 	@Test
 	public void shouldCreateNewTest() throws Exception {
+
+		com.nestis.interview.tests.entity.Test  lastTest = new com.nestis.interview.tests.entity.Test();
+		lastTest.setTestId(1);
+		this.testRepository.findFirstByOrderByTestIdDesc();
+		given(testRepository.findFirstByOrderByTestIdDesc()).willReturn(lastTest);
+		
 		com.nestis.interview.tests.entity.Test test = new com.nestis.interview.tests.entity.Test();
 		test.setLeader("Test Leader");
 		test.setName("Test candidate");
@@ -81,17 +87,20 @@ public class TestServiceTest {
 	
 	@Test
 	public void shouldFinishTest() throws Exception {
+		doCallRealMethod().when(rabbitTemplate).setConfirmCallback(any(RabbitTemplate.ConfirmCallback.class));
+		this.testService = new TestServiceImpl(testRepository, tokenRepository, rabbitTemplate);
+		
+		
 		com.nestis.interview.tests.entity.Test mockTest = new com.nestis.interview.tests.entity.Test();
 		mockTest.setId("test");
 		
 		given(testRepository.findByTestId(1)).willReturn(Optional.of(mockTest));
 		
 		// Mock rabbitTemplate methods
-		doNothing().when(rabbitTemplate).convertAndSend(any(String.class), any(String.class), any(FinishTestDto.class));
-		doCallRealMethod().when(rabbitTemplate).setConfirmCallback(any(RabbitTemplate.ConfirmCallback.class));
+		doNothing().when(rabbitTemplate).correlationConvertAndSend(any(FinishTestDto.class), any(CorrelationData.class));
 		
 		// Call the confirmation callback
-		PendingConfirm pendingConf = new PendingConfirm(new CorrelationData("test"), 1L);
+		PendingConfirm pendingConf = new PendingConfirm(new CorrelationData("1"), 1L);
 		doCallRealMethod().when(rabbitTemplate).handleConfirm(pendingConf, true);
 	
 		FinishTestDto finishTest = new FinishTestDto();

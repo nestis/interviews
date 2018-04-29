@@ -1,0 +1,11 @@
+config:
+  rabbit:
+    question:
+      exchange: questionsExchange
+      routingKey: testFinished
+  endpoints:
+    tests: /tests
+  
+security:
+  endpoint: security
+  tokenHeader: token

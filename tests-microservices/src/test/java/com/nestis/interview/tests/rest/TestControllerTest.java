@@ -19,7 +19,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.client.RestTemplate;
@@ -35,7 +34,6 @@ import reactor.core.publisher.Mono;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestsApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = {"config.endpoints.tests=tests", "security.endpoint=security", "security.tokenHeader=token"})
 public class TestControllerTest {
 
 	private final String securityToken = "SEC";
@@ -94,6 +92,7 @@ public class TestControllerTest {
 			.willReturn(new ResponseEntity<Void>(HttpStatus.OK));
 		
 		webTestClient.post().uri("/tests/mark")
+			.header(tokenHeader, securityToken)
 			.body(Mono.just(mark), FinishTestDto.class)
 			.exchange()
 			.expectStatus().is2xxSuccessful();
@@ -112,6 +111,7 @@ public class TestControllerTest {
 			.willReturn(new ResponseEntity<Void>(HttpStatus.OK));
 		
 		webTestClient.get().uri("/tests/{token}", "1")
+			.header(tokenHeader, securityToken)
 			.exchange()
 			.expectStatus().is5xxServerError()
 			.expectBody(TestsException.class);
