@@ -3,9 +3,16 @@ server:
 
 config:
   rabbit:
-    question:
-      exchange: questionsExchange
-      routingKey: testFinished
+    consumer:
+      exchange: testsExchange
+      testMarked:
+        queue: testExchange.testMarked
+        routingKey: testExchange.rt.testMarked
+    producer:
+      question:
+        exchange: questionsExchange
+        routingKey: questionExchange.rt.testFinished
+        
   endpoints:
     questions: /tests
   
