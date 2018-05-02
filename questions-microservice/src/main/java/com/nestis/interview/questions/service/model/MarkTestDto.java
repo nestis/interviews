@@ -1,5 +1,7 @@
 package com.nestis.interview.questions.service.model;
 
+import java.util.Map;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,5 +13,8 @@ public class MarkTestDto {
 
 	private Integer testId;
 	
-	private Integer[] answers;
+	/**
+	 * Given answers.
+	 */
+	private Map<Integer, String> answers;
 }
