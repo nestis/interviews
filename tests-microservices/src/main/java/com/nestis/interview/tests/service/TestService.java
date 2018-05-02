@@ -1,7 +1,7 @@
 package com.nestis.interview.tests.service;
 
 import com.nestis.interview.tests.entity.Test;
-import com.nestis.interview.tests.service.model.FinishTestDto;
+import com.nestis.interview.tests.service.model.FinishedTestDto;
 
 /**
  * TestService interface.
@@ -28,5 +28,5 @@ public interface TestService {
 	 * Finish a test.
 	 * @param test Test to be set as finished.
 	 */
-	boolean finishTest(FinishTestDto test);
+	boolean finishTest(FinishedTestDto test);
 }

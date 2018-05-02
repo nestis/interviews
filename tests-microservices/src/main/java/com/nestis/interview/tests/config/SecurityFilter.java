@@ -19,7 +19,7 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
 /**
- * SecurityFilter. Will check if any incoming request has a valid secutiry token.
+ * SecurityFilter. Will check if any incoming request has a valid security token.
  * @author nestis
  *
  */

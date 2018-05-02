@@ -1,0 +1,18 @@
+config:
+  rabbit:
+    consumer:
+      exchange: testsExchange
+      testMarked:
+        queue: testExchange.testMarked
+        routingKey: testExchange.rt.testMarked
+    producer:
+      question:
+        exchange: questionsExchange
+        routingKey: questionExchange.rt.testFinished
+        
+  endpoints:
+    tests: /tests
+  
+security:
+  endpoint: security
+  tokenHeader: token

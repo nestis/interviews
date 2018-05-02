@@ -3,8 +3,6 @@
 import java.util.Optional;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.support.CorrelationData;
@@ -20,7 +18,9 @@ import com.nestis.interview.tests.exception.TestsException;
 import com.nestis.interview.tests.repository.TestRepository;
 import com.nestis.interview.tests.repository.TokenRepository;
 import com.nestis.interview.tests.service.TestService;
-import com.nestis.interview.tests.service.model.FinishTestDto;
+import com.nestis.interview.tests.service.model.FinishedTestDto;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * TestService interface implementation.
@@ -28,9 +28,8 @@ import com.nestis.interview.tests.service.model.FinishTestDto;
  *
  */
 @Service
+@Slf4j
 public class TestServiceImpl implements TestService {
-	
-	private final Logger log = LoggerFactory.getLogger(TestServiceImpl.class);
 	
 	private TestRepository testRepository;
 	
@@ -81,7 +80,7 @@ public class TestServiceImpl implements TestService {
 	}
 
 	@Override
-	public boolean finishTest(FinishTestDto test) {
+	public boolean finishTest(FinishedTestDto test) {
 		Optional<Test> testBd = this.testRepository.findByTestId(test.getTestId());
 		if (testBd.isPresent()) {
 			try {
@@ -119,6 +118,7 @@ public class TestServiceImpl implements TestService {
 				testEntity.setFinished(true);
 				testRepository.save(testEntity);
 			} else {
+				log.error("There has been an error publishing into queue: " + cause);
 				throw new TestsException("Error publishing into queue: " + cause);
 			}
 		});

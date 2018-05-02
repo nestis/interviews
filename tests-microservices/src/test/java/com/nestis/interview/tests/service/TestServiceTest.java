@@ -25,7 +25,7 @@ import com.nestis.interview.tests.entity.Token;
 import com.nestis.interview.tests.repository.TestRepository;
 import com.nestis.interview.tests.repository.TokenRepository;
 import com.nestis.interview.tests.service.impl.TestServiceImpl;
-import com.nestis.interview.tests.service.model.FinishTestDto;
+import com.nestis.interview.tests.service.model.FinishedTestDto;
 
 @RunWith(SpringRunner.class)
 public class TestServiceTest {
@@ -97,13 +97,13 @@ public class TestServiceTest {
 		given(testRepository.findByTestId(1)).willReturn(Optional.of(mockTest));
 		
 		// Mock rabbitTemplate methods
-		doNothing().when(rabbitTemplate).correlationConvertAndSend(any(FinishTestDto.class), any(CorrelationData.class));
+		doNothing().when(rabbitTemplate).correlationConvertAndSend(any(FinishedTestDto.class), any(CorrelationData.class));
 		
 		// Call the confirmation callback
 		PendingConfirm pendingConf = new PendingConfirm(new CorrelationData("1"), 1L);
 		doCallRealMethod().when(rabbitTemplate).handleConfirm(pendingConf, true);
 	
-		FinishTestDto finishTest = new FinishTestDto();
+		FinishedTestDto finishTest = new FinishedTestDto();
 		finishTest.setTestId(1);
 		Boolean res = testService.finishTest(finishTest);
 

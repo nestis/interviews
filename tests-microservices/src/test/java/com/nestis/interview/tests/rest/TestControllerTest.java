@@ -19,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.client.RestTemplate;
@@ -28,12 +29,13 @@ import com.nestis.interview.tests.entity.Token;
 import com.nestis.interview.tests.exception.TestsException;
 import com.nestis.interview.tests.service.TestService;
 import com.nestis.interview.tests.service.TokenService;
-import com.nestis.interview.tests.service.model.FinishTestDto;
+import com.nestis.interview.tests.service.model.FinishedTestDto;
 
 import reactor.core.publisher.Mono;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestsApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 public class TestControllerTest {
 
 	private final String securityToken = "SEC";
@@ -82,7 +84,7 @@ public class TestControllerTest {
 	
 	@Test
 	public void shouldACreateNewTest() throws Exception {
-		FinishTestDto mark = new FinishTestDto();
+		FinishedTestDto mark = new FinishedTestDto();
 		mark.setTestId(1);
 		mark.setAnswers(Collections.EMPTY_MAP);
 		
@@ -93,7 +95,7 @@ public class TestControllerTest {
 		
 		webTestClient.post().uri("/tests/mark")
 			.header(tokenHeader, securityToken)
-			.body(Mono.just(mark), FinishTestDto.class)
+			.body(Mono.just(mark), FinishedTestDto.class)
 			.exchange()
 			.expectStatus().is2xxSuccessful();
 	}

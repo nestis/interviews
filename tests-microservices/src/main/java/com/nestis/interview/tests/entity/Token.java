@@ -16,8 +16,10 @@ public class Token {
 
 	@Id
 	private String id;
-
-	private String token;
 	
+	/** Test Id */
 	private Integer testId;
+
+	/** Token associated to a test */
+	private String token;
 }

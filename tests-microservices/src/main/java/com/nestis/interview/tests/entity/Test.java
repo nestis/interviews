@@ -22,14 +22,16 @@ public class Test {
 	@JsonIgnore
 	private String id;
 	
-	private Integer testId;
-	
-	List<Integer> questions;
+	@JsonIgnore
+	private Boolean finished;
+
+	private String leader;
 	
 	private String name;
 	
-	private String leader;
+	private Integer testId;
 	
-	@JsonIgnore
-	private Boolean finished;
+	private Float score;
+	
+	List<Integer> questions;
 }

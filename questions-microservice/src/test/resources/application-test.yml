@@ -1,0 +1,32 @@
+config:
+  rabbit:
+    consumer:
+      exchange: questionsExchange
+      testFinished:
+        queue: questionExchange.testFinished
+        routingKey: questionExchange.rt.testFinished
+    producer:
+      test:
+        exchange: testsExchange
+        routingKey: testExchange.rt.testMarked
+      
+  endpoints:
+    questions: /questions
+  
+security:
+  endpoint: endpoint
+  tokenHeader: Authorization
+  
+spring:
+  resources:
+    add-mappings: false
+  rabbitmq:
+    host: localhost
+    port: 5672
+    user: guest
+    password: guest
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: interviews
