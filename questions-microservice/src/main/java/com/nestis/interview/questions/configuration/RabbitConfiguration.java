@@ -5,14 +5,11 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.amqp.SimpleRabbitListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,14 +23,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfiguration {
 
-	@Value("${config.rabbit.question.testFinished.queue}")
+	@Value("${config.rabbit.consumer.testFinished.queue}")
 	private String testQueue;
 
-	@Value("${config.rabbit.question.exchange}")
-	private String questionExchange;
-
-	@Value("${config.rabbit.question.testFinished.routingKey}")
+	@Value("${config.rabbit.consumer.testFinished.routingKey}")
 	private String testFinishRoutingKey;
+
+	@Value("${config.rabbit.consumer.exchange}")
+	private String questionExchange;
 
 	/**
 	 * Declare RabbitAdmin bean so the queues, exchanges and bindings are
@@ -54,7 +51,7 @@ public class RabbitConfiguration {
 
 	@Bean
 	public DirectExchange questionExchange() {
-		return new DirectExchange(questionExchange, true, true);
+		return new DirectExchange(questionExchange, true, false);
 	}
 
 	@Bean
